@@ -122,3 +122,51 @@
     </script>
 </body>
 </html>
+<style>
+  :root {
+    --bg-dark: #121212;
+    --card-bg: #1e1e1e;
+    --gold-primary: #d4af37;
+    --gold-hover: #f3e5ab;
+    --text-white: #ffffff;
+    --text-muted: #a0a0a0;
+  }
+
+  /* Активная кнопка категории и кнопки добавления */
+  .category-btn.active, .btn-add, .add-to-cart-btn {
+    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%) !important;
+    color: #000000 !important;
+    font-weight: bold;
+    border: none;
+  }
+
+  /* Акцентный цвет цен */
+  .price, .card-price {
+    color: #d4af37 !important;
+    font-weight: 700;
+  }
+</style>
+</head>
+
+<script>
+  // Логика переключения категорий
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.category-btn');
+    const sections = document.querySelectorAll('.category-section');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        sections.forEach(s => s.style.display = 'none');
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-category');
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.style.display = 'grid'; // или 'flex' / 'block'
+        }
+      });
+    });
+  });
+</script>
+</body>
