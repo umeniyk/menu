@@ -24,11 +24,13 @@
         .category-btn.active { background: var(--accent-grad); color: #000; border-color: var(--accent); font-weight: 700; }
         .container { padding: 16px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-img { width: 100%; height: 130px; object-fit: cover; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .card-img { width: 100%; height: 140px; object-fit: cover; }
+        .weight-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.75); color: var(--accent); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; border: 1px solid var(--accent); backdrop-filter: blur(4px); }
         .card-body { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; }
         .card-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; flex-grow: 1; }
+        .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; line-height: 1.3; }
+        .allergens { font-size: 10px; color: #fca5a5; background: rgba(239, 68, 68, 0.1); padding: 4px 6px; border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(239, 68, 68, 0.2); }
         .card-footer { display: flex; justify-content: space-between; align-items: center; }
         .price { font-size: 16px; font-weight: 800; color: var(--accent); }
         .add-btn { background: var(--accent-grad); color: #000; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
@@ -49,9 +51,9 @@
     </header>
     
     <div class="category-nav">
-        <button class="category-btn active" onclick="filterCategory('rolls', this)">🍣 Роллы</button>
-        <button class="category-btn" onclick="filterCategory('sets', this)">🍱 Сеты</button>
-        <button class="category-btn" onclick="filterCategory('baked', this)">🔥 Запеченные</button>
+        <button class="category-btn active" onclick="filterCategory('sets', this)">🍱 Все Сеты</button>
+        <button class="category-btn" onclick="filterCategory('pizza_news', this)">🍕 Новинки Пицц</button>
+        <button class="category-btn" onclick="filterCategory('drinks', this)">🥤 Напитки</button>
     </div>
     
     <div class="container">
@@ -83,21 +85,23 @@
         tg.expand();
 
         const menu = [
-            // Роллы
-            { id: 1, category: "rolls", name: "Филадельфия с лососем", desc: "Лосось, сливочный сыр, огурец, нори, рис", price: 320, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" },
-            { id: 2, category: "rolls", name: "Калифорния в кунжуте", desc: "Снежный краб, авокадо, огурец, майонез, кунжут", price: 260, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80" },
-            { id: 3, category: "rolls", name: "Дракон с угрем", desc: "Угорь, унаги соус, кунжут, сливочный сыр, авокадо", price: 380, img: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=400&q=80" },
+            // Все Сеты
+            { id: 101, category: "sets", name: "Сет Royal Premium", desc: "Филадельфия с лососем, Калифорния, Дракон с угрём, Запеченный ролл", weight: "1150 г", allergens: "Морепродукты, кунжут, соя", price: 980, img: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=500&q=80" },
+            { id: 102, category: "sets", name: "Сет Филадельфия MIX", desc: "Филадельфия классик, Филадельфия с угрём, Филадельфия с тунцом", weight: "890 г", allergens: "Рыба, лактоза, кунжут", price: 850, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=500&q=80" },
+            { id: 103, category: "sets", name: "Сет Горячая Дюжина", desc: "Запеченный с лососем, Запеченный с креветкой, Темпура с крабом", weight: "950 г", allergens: "Морепродукты, яйцо, глютен", price: 790, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=500&q=80" },
             
-            // Сеты
-            { id: 4, category: "sets", name: "Сет Royal Premium", desc: "Филадельфия, Калифорния, Дракон с угрем (24 шт)", price: 920, img: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=400&q=80" },
-            { id: 5, category: "sets", name: "Сет Филадельфия MIX", desc: "Филадельфия Классик, Филадельфия с угрём, Филадельфия Тунец (24 шт)", price: 850, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" },
-            
-            // Запеченные
-            { id: 6, category: "baked", name: "Запеченный с лососем", desc: "Запеченная шапочка с сыром, лосось, авокадо, унаги соус", price: 340, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80" },
-            { id: 7, category: "baked", name: "Запеченный с креветкой", desc: "Тигровая креветка, острый спайси соус, пармезан", price: 360, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" }
+            // Новинки Пицц
+            { id: 201, category: "pizza_news", name: "Пицца Бешамель с Курицей", desc: "Фирменный соус бешамель, сочная куриная ветчина, охотничьи колбаски, моцарелла", weight: "580 г", allergens: "Глютен, лактоза", price: 340, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80" },
+            { id: 202, category: "pizza_news", name: "Пицца BBQ с Дымком", desc: "Копченое филе, охотничьи колбаски, соус барбекю, лук фри, сыр моцарелла", weight: "610 г", allergens: "Глютен, горчица", price: 360, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80" },
+            { id: 203, category: "pizza_news", name: "Пицца Четыре Сыра Royal", desc: "Моцарелла, дор блю, пармезан, чеддер, ореховый соус", weight: "520 г", allergens: "Лактоза, орехи, глютен", price: 390, img: "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=500&q=80" },
+
+            // Напитки
+            { id: 301, category: "drinks", name: "Coca-Cola Original", desc: "Освежающий газированный напиток", weight: "0.5 л", allergens: "", price: 55, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" },
+            { id: 302, category: "drinks", name: "Сок Rich Яблочный", desc: "100% натуральный яблочный сок прямого отжима", weight: "1.0 л", allergens: "", price: 95, img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=500&q=80" },
+            { id: 303, category: "drinks", name: "Домашний Лимонад Цитрус", desc: "Крафтовый лимонад с апельсином, лимоном и мятой", weight: "0.4 л", allergens: "Цитрусовые", price: 70, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80" }
         ];
 
-        let currentCategory = 'rolls';
+        let currentCategory = 'sets';
         let cart = {};
 
         function filterCategory(category, element) {
@@ -111,10 +115,12 @@
             const items = menu.filter(m => m.category === currentCategory);
             document.getElementById('menu-grid').innerHTML = items.map(item => `
                 <div class="card">
+                    <span class="weight-badge">${item.weight}</span>
                     <img src="${item.img}" class="card-img" alt="${item.name}">
                     <div class="card-body">
                         <div class="card-title">${item.name}</div>
                         <div class="card-desc">${item.desc}</div>
+                        ${item.allergens ? `<div class="allergens">⚠️ ${item.allergens}</div>` : ''}
                         <div class="card-footer">
                             <div class="price">${item.price} ₴</div>
                             <button class="add-btn" onclick="addToCart(${item.id})">+ Добавить</button>
@@ -154,7 +160,7 @@
                 html += `<div class="cart-item">
                     <div>
                         <div style="font-weight:bold;">${item.name}</div>
-                        <div style="font-size:12px; color:var(--text-muted);">${item.price * cart[id]} ₴</div>
+                        <div style="font-size:12px; color:var(--text-muted);">${item.price * cart[id]} ₴ (${item.weight})</div>
                     </div>
                     <div style="display:flex; gap:8px; align-items:center;">
                         <button class="cnt-btn" onclick="changeQty(${id}, -1)">-</button>
@@ -173,7 +179,7 @@
             let orderSummary = []; let total = 0;
             for (let id in cart) { 
                 const item = menu.find(m => m.id == id); 
-                orderSummary.push(`${item.name} x${cart[id]}`); 
+                orderSummary.push(`${item.name} (${item.weight}) x${cart[id]}`); 
                 total += item.price * cart[id]; 
             }
             tg.sendData(JSON.stringify({ items: orderSummary, total: total }));
