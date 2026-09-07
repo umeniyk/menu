@@ -6,14 +6,22 @@
     <title>Royal Choice | Доставка</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --bg-color: #0f172a; --card-bg: #1e293b; --accent: #f59e0b; --text-main: #f8fafc; --text-muted: #94a3b8; --border: #334155; }
+        :root { 
+            --bg-color: #0b0d12; 
+            --card-bg: #161b22; 
+            --accent: #d4af37; 
+            --accent-grad: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+            --text-main: #f8fafc; 
+            --text-muted: #94a3b8; 
+            --border: #262d38; 
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 90px; }
-        header { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 20px; font-weight: 800; color: var(--accent); }
+        header { background: rgba(22, 27, 34, 0.85); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: 1px; }
         .category-nav { display: flex; gap: 10px; padding: 12px 16px; overflow-x: auto; background: var(--bg-color); border-bottom: 1px solid var(--border); }
-        .category-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; }
-        .category-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+        .category-btn { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .category-btn.active { background: var(--accent-grad); color: #000; border-color: var(--accent); font-weight: 700; }
         .container { padding: 16px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
         .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
@@ -23,15 +31,15 @@
         .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; flex-grow: 1; }
         .card-footer { display: flex; justify-content: space-between; align-items: center; }
         .price { font-size: 16px; font-weight: 800; color: var(--accent); }
-        .add-btn { background: var(--accent); color: #000; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
-        .cart-bar { position: fixed; bottom: 20px; left: 16px; right: 16px; background: var(--accent); color: #000; padding: 14px 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; cursor: pointer; z-index: 200; }
+        .add-btn { background: var(--accent-grad); color: #000; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        .cart-bar { position: fixed; bottom: 20px; left: 16px; right: 16px; background: var(--accent-grad); color: #000; padding: 14px 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; cursor: pointer; z-index: 200; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3); }
         .cart-bar.hidden { display: none; }
-        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 300; display: none; justify-content: flex-end; flex-direction: column; }
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 300; display: none; justify-content: flex-end; flex-direction: column; }
         .modal.active { display: flex; }
-        .modal-content { background: var(--card-bg); border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; max-height: 80vh; overflow-y: auto; }
+        .modal-content { background: var(--card-bg); border-top: 1px solid var(--border); border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; max-height: 80vh; overflow-y: auto; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .cnt-btn { background: var(--border); color: var(--text-main); border: none; width: 28px; height: 28px; border-radius: 8px; font-weight: bold; }
-        .checkout-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 16px; border-radius: 14px; font-weight: 800; font-size: 16px; margin-top: 20px; cursor: pointer; }
+        .cnt-btn { background: var(--border); color: var(--text-main); border: none; width: 28px; height: 28px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .checkout-btn { width: 100%; background: var(--accent-grad); color: #000; border: none; padding: 16px; border-radius: 14px; font-weight: 800; font-size: 16px; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -39,43 +47,69 @@
         <div class="logo">ROYAL CHOICE</div>
         <div style="font-size: 12px; color: var(--text-muted);">Приднипровск</div>
     </header>
+    
     <div class="category-nav">
-        <button class="category-btn active">🍣 Роллы</button>
-        <button class="category-btn">🍱 Сеты</button>
-        <button class="category-btn">🔥 Запеченные</button>
+        <button class="category-btn active" onclick="filterCategory('rolls', this)">🍣 Роллы</button>
+        <button class="category-btn" onclick="filterCategory('sets', this)">🍱 Сеты</button>
+        <button class="category-btn" onclick="filterCategory('baked', this)">🔥 Запеченные</button>
     </div>
+    
     <div class="container">
         <div class="grid" id="menu-grid"></div>
     </div>
+    
     <div class="cart-bar hidden" id="cart-bar" onclick="openCart()">
         <span id="cart-count">0 товаров</span>
         <span>Оформить • <span id="cart-total">0 ₴</span></span>
     </div>
+    
     <div class="modal" id="cart-modal">
         <div class="modal-content">
             <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                 <h2>Ваш заказ</h2>
-                <button onclick="closeCart()" style="background:none; border:none; color:var(--text-muted); font-size:20px;">✕</button>
+                <button onclick="closeCart()" style="background:none; border:none; color:var(--text-muted); font-size:20px; cursor:pointer;">✕</button>
             </div>
             <div id="cart-items"></div>
             <div style="margin-top:20px; display:flex; justify-content:space-between; font-weight:bold; font-size:18px;">
                 <span>Итого:</span>
-                <span id="modal-total">0 ₴</span>
+                <span id="modal-total" style="color:var(--accent);">0 ₴</span>
             </div>
             <button class="checkout-btn" onclick="sendOrder()">Отправить заказ в ресторан</button>
         </div>
     </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+
         const menu = [
-            { id: 1, name: "Филадельфия с лососем", desc: "Лосось, сливочный сыр, огурец, нори, рис", price: 320, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" },
-            { id: 2, name: "Калифорния в кунжуте", desc: "Снежный краб, авокадо, огурец, майонез, кунжут", price: 260, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80" },
-            { id: 3, name: "Дракон с угрем", desc: "Угорь, унаги соус, кунжут, сливочный сыр, авокадо", price: 380, img: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=400&q=80" }
+            // Роллы
+            { id: 1, category: "rolls", name: "Филадельфия с лососем", desc: "Лосось, сливочный сыр, огурец, нори, рис", price: 320, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" },
+            { id: 2, category: "rolls", name: "Калифорния в кунжуте", desc: "Снежный краб, авокадо, огурец, майонез, кунжут", price: 260, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80" },
+            { id: 3, category: "rolls", name: "Дракон с угрем", desc: "Угорь, унаги соус, кунжут, сливочный сыр, авокадо", price: 380, img: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=400&q=80" },
+            
+            // Сеты
+            { id: 4, category: "sets", name: "Сет Royal Premium", desc: "Филадельфия, Калифорния, Дракон с угрем (24 шт)", price: 920, img: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, category: "sets", name: "Сет Филадельфия MIX", desc: "Филадельфия Классик, Филадельфия с угрём, Филадельфия Тунец (24 шт)", price: 850, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" },
+            
+            // Запеченные
+            { id: 6, category: "baked", name: "Запеченный с лососем", desc: "Запеченная шапочка с сыром, лосось, авокадо, унаги соус", price: 340, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=400&q=80" },
+            { id: 7, category: "baked", name: "Запеченный с креветкой", desc: "Тигровая креветка, острый спайси соус, пармезан", price: 360, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" }
         ];
+
+        let currentCategory = 'rolls';
         let cart = {};
+
+        function filterCategory(category, element) {
+            currentCategory = category;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            renderMenu();
+        }
+
         function renderMenu() {
-            document.getElementById('menu-grid').innerHTML = menu.map(item => `
+            const items = menu.filter(m => m.category === currentCategory);
+            document.getElementById('menu-grid').innerHTML = items.map(item => `
                 <div class="card">
                     <img src="${item.img}" class="card-img" alt="${item.name}">
                     <div class="card-body">
@@ -89,84 +123,63 @@
                 </div>
             `).join('');
         }
+
         function addToCart(id) { cart[id] = (cart[id] || 0) + 1; updateCart(); }
         function changeQty(id, delta) { if (cart[id]) { cart[id] += delta; if (cart[id] <= 0) delete cart[id]; } updateCart(); }
+
         function updateCart() {
             let total = 0, count = 0;
-            for (let id in cart) { const item = menu.find(m => m.id == id); total += item.price * cart[id]; count += cart[id]; }
+            for (let id in cart) { 
+                const item = menu.find(m => m.id == id); 
+                total += item.price * cart[id]; 
+                count += cart[id]; 
+            }
             const cartBar = document.getElementById('cart-bar');
             if (count > 0) {
                 cartBar.classList.remove('hidden');
                 document.getElementById('cart-count').innerText = `${count} позиций`;
                 document.getElementById('cart-total').innerText = `${total} ₴`;
-            } else { cartBar.classList.add('hidden'); closeCart(); }
+            } else { 
+                cartBar.classList.add('hidden'); 
+                closeCart(); 
+            }
             document.getElementById('modal-total').innerText = `${total} ₴`;
             renderCartItems();
         }
+
         function renderCartItems() {
             let html = '';
             for (let id in cart) {
                 const item = menu.find(m => m.id == id);
-                html += `<div class="cart-item"><div><div style="font-weight:bold;">${item.name}</div><div style="font-size:12px; color:var(--text-muted);">${item.price * cart[id]} ₴</div></div><div style="display:flex; gap:8px; align-items:center;"><button class="cnt-btn" onclick="changeQty(${id}, -1)">-</button><span>${cart[id]}</span><button class="cnt-btn" onclick="changeQty(${id}, 1)">+</button></div></div>`;
+                html += `<div class="cart-item">
+                    <div>
+                        <div style="font-weight:bold;">${item.name}</div>
+                        <div style="font-size:12px; color:var(--text-muted);">${item.price * cart[id]} ₴</div>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <button class="cnt-btn" onclick="changeQty(${id}, -1)">-</button>
+                        <span>${cart[id]}</span>
+                        <button class="cnt-btn" onclick="changeQty(${id}, 1)">+</button>
+                    </div>
+                </div>`;
             }
             document.getElementById('cart-items').innerHTML = html || 'Корзина пуста';
         }
+
         function openCart() { document.getElementById('cart-modal').classList.add('active'); }
         function closeCart() { document.getElementById('cart-modal').classList.remove('active'); }
+
         function sendOrder() {
             let orderSummary = []; let total = 0;
-            for (let id in cart) { const item = menu.find(m => m.id == id); orderSummary.push(`${item.name} x${cart[id]}`); total += item.price * cart[id]; }
+            for (let id in cart) { 
+                const item = menu.find(m => m.id == id); 
+                orderSummary.push(`${item.name} x${cart[id]}`); 
+                total += item.price * cart[id]; 
+            }
             tg.sendData(JSON.stringify({ items: orderSummary, total: total }));
         }
+
         renderMenu();
     </script>
 </body>
 </html>
-<style>
-  :root {
-    --bg-dark: #121212;
-    --card-bg: #1e1e1e;
-    --gold-primary: #d4af37;
-    --gold-hover: #f3e5ab;
-    --text-white: #ffffff;
-    --text-muted: #a0a0a0;
-  }
-
-  /* Активная кнопка категории и кнопки добавления */
-  .category-btn.active, .btn-add, .add-to-cart-btn {
-    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%) !important;
-    color: #000000 !important;
-    font-weight: bold;
-    border: none;
-  }
-
-  /* Акцентный цвет цен */
-  .price, .card-price {
-    color: #d4af37 !important;
-    font-weight: 700;
-  }
-</style>
-</head>
-
-<script>
-  // Логика переключения категорий
-  document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.category-btn');
-    const sections = document.querySelectorAll('.category-section');
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        sections.forEach(s => s.style.display = 'none');
-
-        btn.classList.add('active');
-        const targetId = btn.getAttribute('data-category');
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-          targetSection.style.display = 'grid'; // или 'flex' / 'block'
-        }
-      });
-    });
-  });
-</script>
-</body>
